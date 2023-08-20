@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <%- include('header.ejs') %>
+    <% if (typeof successMessage !== 'undefined') { %>
+        <div class="alert alert-success"><%= successMessage %></div>
+    <% } %>
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">User Details</h1>
+            <p class="card-text">Name: <%= user.first_name %> <%= user.last_name %></p>
+            <p class="card-text">Email: <%= user.email %></p>
+            <p class="card-text">Gender: <%= user.gender %></p>
+            <p class="card-text">Address: <%= user.address %></p>
+            <p class="card-text">Phone: <%= userPhones.length > 0 ? userPhones[userPhones.length - 1].phone : "" %></p>
+            <p class="card-text">Occupation: <%= user.occupation %></p>
+        </div>
+    </div>
+    <h2>Adoption Applications</h2>
+    <% if (applications.length > 0) { %>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Application ID</th>
+                    <th>Animal ID</th>
+                    <th>Adoption Date</th>
+                    <th>Status</th>
+                    <th>Action</th> <!-- Added column for action buttons -->
+
+                </tr>
+            </thead>
+            <tbody>
+                <% applications.forEach(application => { %>
+                    <tr>
+                        <td><%= application.application_id %></td>
+                        <td><%= application.animal_id %></td>
+                        <td><%= application.date ? application.date.toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) : "" %></td>
+                        <td><%= application.status %></td>
+                        <td>
+                            <form action="/cancel-application" method="post">
+                                <input type="hidden" name="application_id" value="<%= application.application_id %>">
+                                <button type="submit" class="btn btn-danger">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No adoption applications found.</p>
+    <% } %>
+
+    <h2>Donations</h2>
+    <% if (donations.length > 0) { %>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Donation ID</th>
+                    <th>Donation Date</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% donations.forEach(donation => { %>
+                    <tr>
+                        <td><%= donation.donation_id %></td>
+                        <td><%= donation.donation_date ? donation.donation_date.toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) : "" %></td>
+                        <td><%= donation.donation_amount %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No donations found.</p>
+    <% } %>
+
+    <h2>Update Information</h2>
+    <form action="/update-information" method="post">
+        <div class="mb-3">
+            <label for="first_name" class="form-label">First Name:</label>
+            <input type="text" name="first_name" id="first_name" class="form-control" value="<%= user.first_name %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="last_name" class="form-label">Last Name:</label>
+            <input type="text" name="last_name" id="last_name" class="form-control" value="<%= user.last_name %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" name="password" id="password" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="address" class="form-label">Address:</label>
+            <input type="text" name="address" id="address" class="form-control" value="<%= user.address %>">
+        </div>
+        <div class="mb-3">
+            <label for="address2" class="form-label">Address 2:</label>
+            <input type="text" name="address2" id="address2" class="form-control" value="<%= user.address2 %>">
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number:</label>
+            <input type="text" name="phone" id="phone" class="form-control" value="<%= userPhones.phone %>" required>
+        </div>
+        <!-- Add more fields as needed -->
+    
+        <button type="submit" class="btn btn-primary">Update Information</button>
+    </form>
+    <br>
+
+    <h2>Join Us</h2>
+    <form action="/join-us" method="post">
+            <input type="hidden" name="user_id" value="<%= user.user_id %>">  
+            <input type="hidden" name="first_name" value="<%= user.first_name %>">
+            <input type="hidden" name="last_name" value="<%= user.last_name %>">
+            <input type="hidden" name="gender" value="<%= user.gender %>">
+            <input type="hidden" name="address" value="<%= user.address %>">
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" class="form-control" required>
+            </div>
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="text" name="phone" id="phone" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="motivation_letter">Motivation Letter:</label>
+            <input type="text" name="motivation_letter" id="motivation_letter" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="position">Select Position:</label>
+            <select name="position" id="position" class="form-control" required>
+                <option value="">Select Position</option>
+                <option value="ACW01">Animal Care and Welfare</option>
+                <option value="ADR01">Adoption and Rehoming</option>
+                <option value="VET01">Veterinary Services</option>
+                <option value="AD01">Administration</option>
+                <option value="STF01">Staff</option>
+                <option value="FIN01">Finance</option>
+                <option value="HR01">Human Resources</option>
+                <option value="IT01">Information Technology</option>
+                <option value="VOL01">Volunteers</option>
+                <option value="SEC01">Security</option>
+            </select>
+        </div>
+        <!-- Add more fields as needed -->
+        <button type="submit" class="btn btn-primary">Submit Application</button>
+    </form>
+
+    
+  
+    <br>
+    <br><br>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

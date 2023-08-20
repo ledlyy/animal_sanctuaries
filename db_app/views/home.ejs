@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .center-content {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('header.ejs') %>
+        <% if (typeof successMessage !== 'undefined') { %>
+            <div class="success-message">
+                <%= successMessage %>
+            </div>
+        <% } %>
+        <div class="container center-content">
+            <div class="row">
+                <div class="col-md-10">
+                    <h1>Welcome to the Animal Sanctuary, <%= user.first_name %>!</h1>
+                    <h2>Available Animals</h2>
+                    <div class="row">
+                        <% animals.forEach(animal => { %>
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Animal ID: <%= animal.animal_id %>
+                                        </h3>
+                                        <p class="card-text">Gender: <%= animal.gender %>
+                                        </p>
+                                        <p class="card-text">Color: <%= animal.color.join(', ') %></p>
+                                        <p class="card-text">Age: <%= animal.age %></p>
+                                        <p class="card-text">Species: <%= animal.species %></p>
+                                        <p class="card-text">Breed: <%= animal.breed %></p>
+                                        <p class="card-text">Vaccination Status: <%= animal.vaccination_status ? 'Vaccinated' : 'Not Vaccinated' %></p>
+                                        <a href="/application?animalId=<%= animal.animal_id %>" class="btn btn-success apply-btn">Apply for Adoption</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h2>Profile</h2>
+                    <br>
+                    <a href="/user?user_id=<%= user.user_id %>">
+                        <%= user.user_id %> -- User Dashboard
+                    </a>
+
+                    <p>Name: <%= user.first_name %> <%= user.last_name %></p>
+                    <p>Email: <%= user.email %></p>
+                    <br>
+                    <% if (user.is_employee) { %>
+                        <a href="/employee">Employee Dashboard</a>
+                    <% } %>
+                    <br>
+                    <br>
+                    <h2>Make a Donation</h2>
+                    <form action="/donate" method="post">
+                        <div class="form-group">
+                            <label for="amount">Donation Amount:</label>
+                            <input type="number" name="amount" id="amount" class="form-control" step="0.01" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Donate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+</body>
+
+
+                

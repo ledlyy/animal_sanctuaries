@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Animal Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <%- include('header.ejs') %>
+    <div class="container">
+        <h1 class="mt-4">Animals</h1>
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Animal ID: <%= animal.animal_id %>
+                </h2>
+                <p class="card-text">Species: <%= animal.species %>
+                </p>
+                <p class="card-text">Breed: <%= animal.breed %>
+                </p>
+                <p class="card-text">Gender: <%= animal.gender %>
+                </p>
+                <p class="card-text">Age: <%= animal.age %>
+                </p>
+                <p class="card-text">Color: <%= animal.color.join(", ") %></p>
+                <p class=" card-text">Adoption Status: <%= animal.adoption_status ? "Available" : "Not Available" %>
+                </p>
+                <p class="card-text">Vaccination Status: <%= animal.vaccination_status ? "Vaccinated" : "Not Vaccinated"
+                        %>
+                </p>
+                <p class="card-text">Microchip ID: <%= animal.microchip_id %>
+                </p>
+                <p class="card-text">Shelter ID: <%= animal.shelter_id %>
+                </p>
+                <p class="card-text">Arrival Date: <%= animal.arrival_date ?
+                        animal.arrival_date.toLocaleDateString(undefined, { weekday: 'short' , year: 'numeric' ,
+                        month: 'short' , day: 'numeric' }) : "" %>
+                </p>
+                <p class="card-text">Shelter Name: <%= shelters.shelter_name %>
+                </p>
+                <p class="card-text">Address: <%= locations.address %>----<%= locations.city %>/<%= locations.country %>
+                </p>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Change Vaccination Status</h2>
+        <form action="/update-vaccination-status" method="POST">
+            <input type="hidden" name="animal_id" value="<%= animal.animal_id %>">
+            <div class="form-group">
+                <label for="vaccinationStatus">Vaccination Status:</label>
+                <select class="form-control" id="vaccinationStatus" name="vaccinationStatus">
+                    <option value="true">Vaccinated</option>
+                    <option value="false">Not Vaccinated</option>
+                </select>
+            </div>
+            <br>
+
+            <button type="submit" class="btn btn-primary">Update Vaccination Status</button>
+        </form>
+
+        <h2 class="mt-4">Change Shelter Location</h2>
+        <form action="/update-shelter-location" method="POST">
+            <input type="hidden" name="animal_id" value="<%= animal.animal_id %>">
+            <div class="form-group">
+                <label for="shelter_id">Location:</label>
+                <select class="form-control" id="shelter_id" name="shelter_id">
+                    <option value="1"> Shelter 1 </option>
+                    <option value="2"> Shelter 2 </option>
+                    <option value="3"> Shelter 3 </option>
+                </select>
+            </div>
+            <br><br><br>
+            <button type="submit" class="btn btn-primary">Update Shelter Location</button>
+        </form>
+
+        <h2 class="mt-4">Create Care Records</h2>
+        <form action="/create-care-records" method="POST">
+            <input type="hidden" name="animalID" value="<%= animal.animal_id %>">
+            <div class="form-group">
+                <label for="healthStatus">Health Status:</label>
+                <select class="form-control" id="healthStatus" name="healthStatus">
+                    <option value="Healthy">Healthy</option>
+                    <option value="Sick">Sick</option>
+                    <option value="Injured">Injured</option>
+                    <option value="Unknown">Unknown</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" class="form-control" id="date" name="date" min="1000-01-01">
+            </div>
+            <div class="form-group">
+                <label for="empID">Employee ID:</label>
+                <select class="form-control" id="empID" name="empID">
+                    <% care_stuff.forEach((e)=> { %>
+                        <option value="<%= e.emp_id %>">emp_id:<%= e.emp_id %> department id:<%= e.dept_id %>
+                        </option>
+                        <% }); %>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cost">Cost:</label>
+                <input type="number" step="10" class="form-control" id="cost" name="cost" placeholder="Enter cost">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Create Care Record</button>
+        </form>
+
+        <br>
+        <br>
+        <h2>Adoption Applications</h2>
+        <% if (adoption_applications.length> 0) { %>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Application ID</th>
+                        <th>User ID</th>
+                        <th>Date</th>
+                        <th>Current Status</th>
+                        <th>Update</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <% adoption_applications.forEach(application=> { %>
+                        <tr>
+                            <td>
+                                <%= application.application_id %>
+                            </td>
+                            <td>
+                                <%= application.user_id %>
+                            </td>
+                            <td>
+                                <%= application.date ? application.date.toLocaleDateString(undefined, { weekday: 'short'
+                                    , year: 'numeric' , month: 'short' , day: 'numeric' }) : "" %>
+                            </td>
+                            <td>
+                                <%= application.status %>
+                            </td>
+                            <td>
+                                <form action="/update-adoption" method="post">
+                                    <input type="hidden" name="application_id"
+                                        value="<%= application.application_id %>">
+                                    <input type="hidden" name="animal_id" value="<%= application.animal_id %>">
+                                    <input type="hidden" name="user_id" value="<%= application.user_id %>">
+                                    <select name="status" id="select">
+                                        <option value="pending">pending</option>
+                                        <option value="approved">approved</option>
+                                        <option value="rejected">rejected</option>
+                                    </select>
+                                    <br>
+                                    <br>
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+            <% } else { %>
+                <p>No adoption applications found.</p>
+                <% } %>
+
+                    <br>
+                    <br>
+
+                    <h2>Care Records</h2>
+                    <% if (care_records.length> 0) { %>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Care ID</th>
+                                    <th>Health Status</th>
+                                    <th>Date</th>
+                                    <th>Employee ID</th>
+                                    <th>Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% care_records.forEach(care_record=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= care_record.care_id %>
+                                        </td>
+                                        <td>
+                                            <%= care_record.health_status %>
+                                        </td>
+                                        <td>
+                                            <%= care_record.date ? care_record.date.toLocaleDateString(undefined, {
+                                                weekday: 'short' , year: 'numeric' , month: 'short' , day: 'numeric' })
+                                                : "" %>
+                                        </td>
+                                        <td>
+                                            <%= care_record.emp_id %>
+                                        </td>
+                                        <td>
+                                            <%= care_record.cost %>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                            </tbody>
+                        </table>
+                        <% } else { %>
+                            <p>No care records found.</p>
+                            <% } %>
+
+    </div>
+    </div>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

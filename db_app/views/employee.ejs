@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee</title>
+    <!-- Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <%- include('header.ejs') %>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title">Employee Information</h1>
+                <p class="card-text">Name: <%= current_user.first_name %> <%= current_user.last_name %></p>
+                <p class="card-text">Email: <%= current_user.email %></p>
+                <p class="card-text">Gender: <%= current_user.gender %></p>
+                <p class="card-text">Address: <%= current_user.address %></p>
+                <p class="card-text">Employee ID: <%= current_user.user_id %></p>
+                <p class="card-text">Department ID: <%= current_employee.dept_id %></p>
+                <p class="card-text">Job Title: <%= current_employee.job_title%></p>
+                <p class="card-text">Salary: <%= last_salary.salary%>$</p>
+
+            </div>
+        </div>
+        <br>
+        <h2>Add Animal</h2>
+        <button onclick="window.location.href='/add-animal';" class= "btn btn-primary">Add Animal</button>
+        <br>
+        <h2>Search</h2>
+        <form action = "/see-animal" id="see-animal">
+            <label for="animal_id">Animal ID:</label>
+            <input type="text" name="animal_id" id="animal_id" required>
+            <button class= "btn btn-primary"type="submit">Submit</button>
+          </form>
+          <br>
+        <% if (current_employee.dept_id === 'ADR01' || current_employee.dept_id === 'VET01' ) { %>
+            <h2>Adoption Applications</h2>
+            <% if (adoptionApplications.length > 0) { %>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Application ID</th>
+                            <th>Animal ID</th>
+                            <th>User ID</th>
+                            <th>Date</th>
+                            <th>Current Status</th>
+                            <th>Update</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% adoptionApplications.forEach(application => { %>
+                            <tr>
+                                <td><%= application.application_id %></td>
+                                <td><%= application.animal_id %></td>
+                                <td><%= application.user_id %></td>
+                                <td><%= application.date ? application.date.toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) : "" %></td>
+                                <td><%= application.status %></td>
+                                
+                                <td>
+                                    <form action="/update-adoption" method="post">
+                                        <input type="hidden" name="application_id" value="<%= application.application_id %>">
+                                        <input type="hidden" name="animal_id" value="<%= application.animal_id %>">
+                                        <input type="hidden" name="user_id" value="<%= application.user_id %>">
+                                        <select name="status" id="select">
+                                            <option value="pending">pending</option>
+                                            <option value="approved">approved</option>
+                                            <option value="rejected">rejected</option>
+                                        </select>
+                                        <br>
+                                        <br>
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p>No adoption applications found.</p>
+            <% } %>
+        <% } else if (current_employee.dept_id === 'ACW01') { %>
+            <h2>Care Records</h2>
+              
+            <% if (careRecords.length > 0) { %>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Care ID</th>
+                            <th>Health Status</th>
+                            <th>Animal ID</th>
+                            <th>Date</th>
+                            <th>Employee ID</th>
+                            <th>Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% careRecords.forEach(record => { %>
+                            <tr>
+                                <td><%= record.care_id %></td>
+                                <td><%= record.health_status %></td>
+                                <td><%= record.animal_id %></td>
+                                <td><%= record.date ? record.date.toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) : "" %></td>
+                                <td><%= record.emp_id %></td>
+                                <td><%= record.cost %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p>No care records found.</p>
+            <% } %>
+        <% } else if (current_employee.dept_id === 'FIN01') { %>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Number Of Users</th>
+                        <th>Number Of Employees</th>
+                        <th>Number Of Donations</th>
+                        <th>Number Of Adopters</th>
+                        <th>Number Of Animals</th>
+                        <th>Number Of Donors</th>
+                        <th>Total Donation Amount</th>
+                        <th>Health Expenditures</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><%= count_list[0].count %></td>
+                        <td><%= count_list[1].count %></td>
+                        <td><%= count_list[2].count %></td>
+                        <td><%= count_list[3].count %></td>
+                        <td><%= count_list[4].count %></td>
+                        <td><%= count_list[5].count %></td>
+                        <td><%= count_list[6].count %></td>
+                        <td><%= count_list[7].count %></td>
+                    </tr>
+                </tbody>
+                
+            </table>
+
+           
+        <% } %>
+        
+        <%  if (current_employee.dept_id === 'HR01') { %>
+            <h2>Job Applications</h2>
+            <% if (join_us.length > 0) { %>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Application ID</th>
+                            <th>User ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Gender</th>
+                            <th>Address</th>
+                            <th>Phone Number</th>
+                            <th>Email</th>
+                            <th>Motivation Letter</th>
+                            <th>Position</th>
+                            <th>Status</th>
+                            <th>Change Status:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% join_us.forEach(j => { %>
+                            <tr>
+                                <td><%= j.id %></td>
+                                <td><%= j.user_id %></td>
+                                <td><%= j.first_name %></td>
+                                <td><%= j.last_name %></td>
+                                <td><%= j.gender %></td>
+                                <td><%= j.address %></td>
+                                <td><%= j.phone %></td>
+                                <td><%= j.email %></td>
+                                <td><%= j.motivation_letter %></td>
+                                <td><%= j.position %></td>
+                                <td><%= j.status %></td>
+                                <td>
+                                    <form action="/evaluate-employee" method="post">
+                                        <input type="hidden" name="application_id" value="<%= j.id %>">
+                                        <input type="hidden" name="user_id" value="<%= j.user_id %>">
+                                        <input type="hidden" name="position" value="<%= j.position %>">
+                                        <select name="status" id="select">
+                                            <option value="pending">pending</option>
+                                            <option value="approved">approved</option>
+                                            <option value="rejected">rejected</option>
+                                        </select>
+                                        <br>
+                                        <br>
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </form>
+                                </td>
+
+
+                                
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p>No salary records found.</p>
+            <% } %>
+        <% } %>
+
+        
+    </div>
+</body>
+</html>

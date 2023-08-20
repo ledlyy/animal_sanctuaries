@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Registration</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <style>
+    .container {
+      max-width: 400px;
+      margin-top: 100px;
+    }
+  </style>
+</head>
+<body>
+  <%- include('header.ejs') %>
+  <div class="container">
+    <h1 class="text-center mt-5">User Registration</h1>
+    <form action="/register" method="POST">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col">
+          <label for="first_name" class="form-label">First Name:</label>
+          <input type="text" class="form-control" id="first_name" name="first_name" required>
+        </div>
+        <div class="col">
+          <label for="last_name" class="form-label">Last Name:</label>
+          <input type="text" class="form-control" id="last_name" name="last_name" required>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password:</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="gender" class="form-label">Gender:</label>
+        <select class="form-select" id="gender" name="gender" required>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="address" class="form-label">Address:</label>
+        <input type="text" class="form-control" id="address" name="address">
+      </div>
+
+      <div class="mb-3">
+        <label for="address2" class="form-label">Address 2:</label>
+        <input type="text" class="form-control" id="address2" name="address2">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+  </div>
+  <br>
+  <br>
+  <br>
+
+  <!-- Include Bootstrap JS (optional, only if you need it) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

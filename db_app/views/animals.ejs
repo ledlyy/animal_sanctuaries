@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Animal List</title>
+</head>
+<body>
+    
+  <h1>Animal List</h1>
+  <% if (typeof success !== 'undefined') { %>
+    <div class="success-message"><%= success %></div>
+<% } %>
+
+  <ul>
+    <% animals.forEach(animal => { %>
+        <h2>Animal id: <%= animal.animal_id %></h2>
+        <p>Species: <%= animal.species %></p>
+        <p>Breed: <%= animal.breed %></p>
+        <p>Gender: <%= animal.gender %></p>
+        <p>Age: <%= animal.age %></p>
+        <p>Color: <%= animal.color.join(", ") %></p>
+        <p>Adoption Status: <%= animal.adoption_status ? "Available" : "Not Available" %></p>
+        <p>Vaccination Status: <%= animal.vaccination_status ? "Vaccinated" : "Not Vaccinated" %></p>
+        <p>***--***--***---</p>
+
+        <a href="/application?animalId=<%= animal.animal_id %>">Apply for Adoption</a>
+
+    <% }) %>
+  </ul>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Adoption Application</title>
+  <!-- Add Bootstrap CSS link here -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <%- include('header.ejs') %>
+  <div class="container">
+    <h1>Add Animal</h1>
+    <form action="/add-animal" method="POST">  
+      <div class="form-group">
+        <label for="species">Species</label>
+        <input class="form-control" name="species"  id="species">
+      </div>
+      <div class="form-group">
+        <label for="breed">Breed</label>
+        <input class="form-control" name="breed"  id="breed">
+      </div>
+      <div class="form-group">
+        <label for="breed">Age</label>
+        <input class="form-control" name="age"  id="age">
+      </div>
+      
+      <label for="gender">Gender:</label>
+    <select class="form-control" id="gender" name="gender">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+
+      <label for="shelter_id">Shelter</label>
+      <select class = "form-control" name="shelter_id" id="select">
+        <option value="1">Shelter 1</option>
+        <option value="2">Shelter 2</option>
+        <option value="3">Shelter 3</option>
+        </select>
+    <label for="vaccination_status">Vaccination Status:</label>
+    <select class="form-control" id="vaccination_status" name="vaccination_status">
+        <option value="true">Vaccinated</option>
+        <option value="false">Not Vaccinated</option>
+    </select>
+    <div class="form-group">
+        <label for="microchip_id">Microchip ID</label>
+        <input class="form-control" name="microchip_id"  id="microchip_id">
+      </div>
+    
+        <br>
+        <br>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+  <!-- Add Bootstrap JS and jQuery script links here -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
