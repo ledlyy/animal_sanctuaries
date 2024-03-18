@@ -1,5 +1,4 @@
 
-```markdown
 # Animal Sanctuaries
 
 ![Sanctuary](https://images.unsplash.com/photo-1521737711861-3f7f6e97a893)
@@ -79,6 +78,3 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-```
-
-You can copy the above markdown content, create a new file named `README.md` in your repository, and paste the content there.
