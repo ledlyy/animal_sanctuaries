@@ -1,7 +1,7 @@
 
 # Animal Sanctuaries
 
-![Sanctuary](https://images.unsplash.com/photo-1521737711861-3f7f6e97a893)
+![Sanctuary]([https://images.unsplash.com/photo-1521737711861-3f7f6e97a893](https://github.com/ledlyy/animal_sanctuaries/blob/main/dbms%20phase%202/diagram%20picture.png?raw=true))
 
 Welcome to the Animal Sanctuaries project!
 
